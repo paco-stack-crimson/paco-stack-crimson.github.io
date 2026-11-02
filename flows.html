@@ -92,6 +92,7 @@ footer { font-family: var(--mono); font-size: 12px; color: var(--muted); border-
 .notes p { font-size: 15px; color: var(--muted); }
 .notes p + p { margin-top: 8px; }
 .more { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 15px; }
+.viz .place, .bigviz .place { font-family: var(--sans); font-size: 13px; font-weight: 600; fill: var(--fg); paint-order: stroke; stroke: var(--bg); stroke-width: 3px; stroke-linejoin: round; }
 </style>
 </head>
 <body>
@@ -102,7 +103,7 @@ footer { font-family: var(--mono); font-size: 12px; color: var(--muted); border-
   <section class="intro">
     <h1>MigData</h1>
     <p class="tagline">IN PROGRESS</p>
-    <p>MigData will be an open collection of migration statistics published by governments in the Global South, cleaned and made comparable across countries.</p><p>This preview shows flows into Mexico by country of origin; line width is the size of the flow.</p>
+    <p>MigData will be an open collection of migration statistics published by governments in the Global South, cleaned and made comparable across countries.</p><p>This preview maps flows into Mexico from nine countries in the region; line width is the size of the flow.</p>
   </section>
   <figure class="figure" style="margin:0">
     <div class="legend" id="legend"></div>
@@ -122,6 +123,7 @@ footer { font-family: var(--mono); font-size: 12px; color: var(--muted); border-
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
 <script src="charts.js"></script>
 <script>
 (function () {
@@ -129,9 +131,9 @@ footer { font-family: var(--mono); font-size: 12px; color: var(--muted); border-
   const id = document.body.dataset.project || document.querySelector('main').dataset.project;
   const viz = document.getElementById('viz'), BW = 760, BH = 440;
   const svg = d3.select(viz).append('svg').attr('viewBox', `0 0 ${BW} ${BH}`).attr('role', 'img').attr('aria-label', viz.getAttribute('aria-label'));
-  FD.charts[id](svg, BW, BH, FD.rand(FD.seeds[id]));
-  const legend = FD.tips[id](svg, FD.rand(FD.seeds[id] + 0.5), BW, BH) || [];
-  document.getElementById('legend').innerHTML = legend.map(([c, t]) => `<span><i style="background:${c}"></i>${t}</span>`).join('');
+  FD.draw(id, svg, BW, BH).then(legend => {
+    document.getElementById('legend').innerHTML = legend.map(([c, t]) => `<span><i style="background:${c}"></i>${t}</span>`).join('');
+  }).catch(() => { viz.insertAdjacentHTML('beforeend', '<p class="caption" style="padding:16px">The map data could not load. Refresh the page to try again.</p>'); });
   const tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; viz.appendChild(tip);
   let cur = null;
   viz.addEventListener('pointermove', e => {

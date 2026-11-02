@@ -72,6 +72,7 @@ a.card:hover .viz, a.card:focus-visible .viz { border-color: var(--accent); }
 ul.links { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
 .contact { font-family: var(--mono); font-size: 15px; }
 footer { font-family: var(--mono); font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 18px; }
+.viz .place, .bigviz .place { font-family: var(--sans); font-size: 13px; font-weight: 600; fill: var(--fg); paint-order: stroke; stroke: var(--bg); stroke-width: 3px; stroke-linejoin: round; }
 </style>
 </head>
 <body>
@@ -147,6 +148,7 @@ footer { font-family: var(--mono); font-size: 12px; color: var(--muted); border-
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
 <script src="charts.js"></script>
 <script>
 (function () {
@@ -155,7 +157,7 @@ footer { font-family: var(--mono); font-size: 12px; color: var(--muted); border-
     const id = el.dataset.draw;
     const svg = d3.select(el).append('svg').attr('viewBox', '0 0 320 200').attr('role', 'img')
       .attr('aria-label', el.getAttribute('aria-label') || '').attr('preserveAspectRatio', 'xMidYMid slice');
-    FD.charts[id](svg, 320, 200, FD.rand(FD.seeds[id]));
+    FD.draw(id, svg, 320, 200).catch(() => {});
   });
 })();
 </script>

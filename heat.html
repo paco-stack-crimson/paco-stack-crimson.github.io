@@ -92,6 +92,7 @@ footer { font-family: var(--mono); font-size: 12px; color: var(--muted); border-
 .notes p { font-size: 15px; color: var(--muted); }
 .notes p + p { margin-top: 8px; }
 .more { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 15px; }
+.viz .place, .bigviz .place { font-family: var(--sans); font-size: 13px; font-weight: 600; fill: var(--fg); paint-order: stroke; stroke: var(--bg); stroke-width: 3px; stroke-linejoin: round; }
 </style>
 </head>
 <body>
@@ -111,7 +112,7 @@ footer { font-family: var(--mono); font-size: 12px; color: var(--muted); border-
   </figure>
   <section class="notes">
     <h2>About the data</h2>
-    <p>Data from the Dirección General de Obras Públicas transparency filings, published under Mexico&#x27;s transparency law.</p>
+    <p>Data from the Dirección General de Obras Públicas transparency filings, published under Mexico&#x27;s transparency law. Base map: INE electoral sections (2021 cartography).</p>
     <p>Sources: DGOP Torreón transparency data</p>
   </section>
   <nav class="more">
@@ -122,6 +123,7 @@ footer { font-family: var(--mono); font-size: 12px; color: var(--muted); border-
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
 <script src="charts.js"></script>
 <script>
 (function () {
@@ -129,9 +131,9 @@ footer { font-family: var(--mono); font-size: 12px; color: var(--muted); border-
   const id = document.body.dataset.project || document.querySelector('main').dataset.project;
   const viz = document.getElementById('viz'), BW = 760, BH = 440;
   const svg = d3.select(viz).append('svg').attr('viewBox', `0 0 ${BW} ${BH}`).attr('role', 'img').attr('aria-label', viz.getAttribute('aria-label'));
-  FD.charts[id](svg, BW, BH, FD.rand(FD.seeds[id]));
-  const legend = FD.tips[id](svg, FD.rand(FD.seeds[id] + 0.5), BW, BH) || [];
-  document.getElementById('legend').innerHTML = legend.map(([c, t]) => `<span><i style="background:${c}"></i>${t}</span>`).join('');
+  FD.draw(id, svg, BW, BH).then(legend => {
+    document.getElementById('legend').innerHTML = legend.map(([c, t]) => `<span><i style="background:${c}"></i>${t}</span>`).join('');
+  }).catch(() => { viz.insertAdjacentHTML('beforeend', '<p class="caption" style="padding:16px">The map data could not load. Refresh the page to try again.</p>'); });
   const tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; viz.appendChild(tip);
   let cur = null;
   viz.addEventListener('pointermove', e => {
