@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="canonical" href="https://francisco-data.com/flows.html">
+<title>MigData · Francisco López</title>
+<meta name="description" content="MigData will be an open collection of migration statistics published by governments in the Global South, cleaned and made comparable across countries.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: single narrow column like a personal index page; project grid in two columns, one on phones. */
+:root {
+  --bg: #fbfbf9;
+  --fg: #1b1f24;
+  --muted: #5c6670;
+  --line: #e2e4e1;
+  --accent: #2c5f8d;
+  --thumb: #eef0ee;
+  --hot: #e0611e; --p1: #b84b4b; --p2: #3d6fb4; --p3: #c4952e; --p4: #7a4690;
+  --sans: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121519; --fg: #e6e8ea; --muted: #97a1aa; --line: #2a3038; --accent: #7fb0dd; --thumb: #1b2027; --hot: #ff8c3c; --p1: #c46a6a; --p2: #6f93c9; --p3: #c9a24f; --p4: #9b74ad; color-scheme: dark;
+}}
+:root[data-theme="dark"] {
+  --bg: #121519; --fg: #e6e8ea; --muted: #97a1aa; --line: #2a3038; --accent: #7fb0dd; --thumb: #1b2027; --hot: #ff8c3c; --p1: #c46a6a; --p2: #6f93c9; --p3: #c9a24f; --p4: #9b74ad; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--sans); font-size: 17px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+main {
+  max-width: 760px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: clamp(48px, 9vw, 96px) 64px;
+  display: grid; gap: 56px;
+}
+h1 { font-size: clamp(30px, 5vw, 40px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; margin: 0 0 18px; text-wrap: balance; }
+.head { display: flex; align-items: center; gap: 22px; margin-bottom: 22px; flex-wrap: wrap; }
+.head h1 { margin: 0; }
+.portrait { width: 112px; height: 112px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line); flex: none; }
+h2 { font-family: var(--mono); font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 20px; }
+p { margin: 0; max-width: 62ch; }
+.intro p + p { margin-top: 12px; }
+.intro .coords { font-family: var(--mono); font-size: 13px; color: var(--muted); margin-top: 18px; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible, .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 28px; }
+@media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+.card { display: grid; gap: 8px; color: inherit; text-decoration: none; min-width: 0; }
+.viz { width: 100%; aspect-ratio: 16 / 10; max-width: 100%; display: block; background: var(--thumb); border: 1px solid var(--line); overflow: hidden; }
+.viz svg { width: 100%; height: 100%; display: block; }
+.viz .p1 { fill: var(--p1); } .viz .p2 { fill: var(--p2); } .viz .p3 { fill: var(--p3); } .viz .p4 { fill: var(--p4); }
+.viz .axis text, .viz .lbl { font-family: var(--mono); font-size: 9px; fill: var(--muted); }
+.viz .axis path, .viz .axis line { stroke: var(--line); }
+.card h3 { font-size: 17px; font-weight: 600; margin: 6px 0 0; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.card h3 .tag { font-family: var(--mono); font-size: 11px; font-weight: 400; color: var(--muted); letter-spacing: 0.04em; }
+.card p { font-size: 15px; color: var(--muted); line-height: 1.5; }
+.card .src { font-family: var(--mono); font-size: 11.5px; color: var(--muted); opacity: .85; }
+a.card:hover h3 { color: var(--accent); }
+.card .viz { transition: border-color .15s; }
+a.card:hover .viz, a.card:focus-visible .viz { border-color: var(--accent); }
+
+
+ul.links { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.contact { font-family: var(--mono); font-size: 15px; }
+footer { font-family: var(--mono); font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 18px; }
+
+.back { font-family: var(--mono); font-size: 13px; }
+.proj h1 { margin-bottom: 8px; }
+.proj .tagline { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.06em; }
+.proj .intro p + p { margin-top: 12px; }
+.figure { display: grid; gap: 10px; }
+.bigviz { position: relative; border: 1px solid var(--line); background: var(--thumb); }
+.bigviz svg { width: 100%; height: auto; display: block; }
+.bigviz .axis text, .bigviz .lbl { font-family: var(--mono); font-size: 12px; fill: var(--muted); }
+.bigviz .axis path, .bigviz .axis line { stroke: var(--line); }
+.bigviz .p1 { fill: var(--p1); } .bigviz .p2 { fill: var(--p2); } .bigviz .p3 { fill: var(--p3); } .bigviz .p4 { fill: var(--p4); }
+.bigviz [data-tip] { cursor: crosshair; }
+.bigviz .hl { stroke: var(--fg) !important; stroke-width: 2 !important; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.legend i { display: inline-block; width: 10px; height: 10px; margin-right: 6px; vertical-align: -1px; }
+.caption { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.tip { position: absolute; pointer-events: none; background: var(--fg); color: var(--bg); font: 12px/1.45 var(--mono); padding: 6px 9px; white-space: nowrap; transform: translate(-50%, calc(-100% - 10px)); z-index: 2; }
+.notes p { font-size: 15px; color: var(--muted); }
+.notes p + p { margin-top: 8px; }
+.more { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 15px; }
+</style>
+</head>
+<body>
+
+
+<main class="proj" data-project="flows">
+  <a class="back" href="index.html">← Francisco López</a>
+  <section class="intro">
+    <h1>MigData</h1>
+    <p class="tagline">IN PROGRESS</p>
+    <p>MigData will be an open collection of migration statistics published by governments in the Global South, cleaned and made comparable across countries.</p><p>This preview shows flows into Mexico by country of origin; line width is the size of the flow.</p>
+  </section>
+  <figure class="figure" style="margin:0">
+    <div class="legend" id="legend"></div>
+    <div class="bigviz" id="viz" aria-label="Thumbnail of curved migration flow lines between points"></div>
+    <figcaption class="caption">Sample data for illustration. Hover the chart for details.</figcaption>
+  </figure>
+  <section class="notes">
+    <h2>About the data</h2>
+    <p>Planned sources include national migration institutes and statistical offices across Latin America, Africa and Asia. Launching 2027.</p>
+    <p>Sources: National migration authorities (planned)</p>
+  </section>
+  <nav class="more">
+    <a href="index.html">All projects</a>
+    <a href="electoral.html">Next: Coahuila electoral map →</a>
+  </nav>
+  <footer>© 2026 Francisco Javier López Macías</footer>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="charts.js"></script>
+<script>
+(function () {
+  if (!window.d3 || !window.FD) return;
+  const id = document.body.dataset.project || document.querySelector('main').dataset.project;
+  const viz = document.getElementById('viz'), BW = 760, BH = 440;
+  const svg = d3.select(viz).append('svg').attr('viewBox', `0 0 ${BW} ${BH}`).attr('role', 'img').attr('aria-label', viz.getAttribute('aria-label'));
+  FD.charts[id](svg, BW, BH, FD.rand(FD.seeds[id]));
+  const legend = FD.tips[id](svg, FD.rand(FD.seeds[id] + 0.5), BW, BH) || [];
+  document.getElementById('legend').innerHTML = legend.map(([c, t]) => `<span><i style="background:${c}"></i>${t}</span>`).join('');
+  const tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; viz.appendChild(tip);
+  let cur = null;
+  viz.addEventListener('pointermove', e => {
+    const t = e.target.closest('[data-tip]');
+    if (cur && cur !== t) cur.classList.remove('hl');
+    if (!t) { tip.hidden = true; cur = null; return; }
+    if (t.getAttribute('fill') !== 'transparent') t.classList.add('hl');
+    cur = t;
+    const b = viz.getBoundingClientRect();
+    tip.textContent = t.getAttribute('data-tip'); tip.hidden = false;
+    tip.style.left = Math.min(Math.max(e.clientX - b.left, 110), b.width - 110) + 'px';
+    tip.style.top = (e.clientY - b.top) + 'px';
+  });
+  viz.addEventListener('pointerleave', () => { tip.hidden = true; if (cur) cur.classList.remove('hl'); cur = null; });
+})();
+</script>
+
+</body>
+</html>
