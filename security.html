@@ -11,21 +11,17 @@
 <style>
 /* Layout: single narrow column like a personal index page; project grid in two columns, one on phones. */
 :root {
-  --bg: #fbfbf9;
+  /* Always white, like ivanlokhov.com — no dark-mode switch. */
+  color-scheme: light;
+  --bg: #ffffff;
   --fg: #1b1f24;
   --muted: #5c6670;
-  --line: #e2e4e1;
+  --line: #e6e6e6;
   --accent: #2c5f8d;
-  --thumb: #eef0ee;
+  --thumb: #ffffff;
   --hot: #e0611e; --p1: #b84b4b; --p2: #3d6fb4; --p3: #c4952e; --p4: #7a4690;
   --sans: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
-}
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #121519; --fg: #e6e8ea; --muted: #97a1aa; --line: #2a3038; --accent: #7fb0dd; --thumb: #1b2027; --hot: #ff8c3c; --p1: #c46a6a; --p2: #6f93c9; --p3: #c9a24f; --p4: #9b74ad; color-scheme: dark;
-}}
-:root[data-theme="dark"] {
-  --bg: #121519; --fg: #e6e8ea; --muted: #97a1aa; --line: #2a3038; --accent: #7fb0dd; --thumb: #1b2027; --hot: #ff8c3c; --p1: #c46a6a; --p2: #6f93c9; --p3: #c9a24f; --p4: #9b74ad; color-scheme: dark;
 }
 * { box-sizing: border-box; }
 body {
