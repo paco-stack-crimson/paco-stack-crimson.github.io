@@ -65,6 +65,33 @@ a:focus-visible, .card:focus-visible { outline: 2px solid var(--accent); outline
 .card p { font-size: 15px; color: var(--muted); line-height: 1.5; }
 .card .src { font-family: var(--mono); font-size: 11.5px; color: var(--muted); opacity: .85; }
 a.card:hover h3 { color: var(--accent); }
+.card .viz { transition: border-color .15s; }
+a.card:hover .viz, a.card:focus-visible .viz { border-color: var(--accent); }
+.card .open { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+.overlay { position: fixed; inset: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(4px);
+  overflow-y: auto; padding-top: max(24px, env(safe-area-inset-top, 0px)); padding-bottom: max(24px, env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.panel { max-width: 920px; margin: 0 auto; background: var(--bg); border: 1px solid var(--line); padding: clamp(18px, 3vw, 32px); display: grid; gap: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.18); }
+.panel header { display: flex; justify-content: space-between; align-items: start; gap: 16px; }
+.panel h3 { font-size: clamp(22px, 3.4vw, 28px); font-weight: 600; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+.panel .close { font: 500 13px var(--mono); background: none; border: 1px solid var(--line); color: var(--fg); padding: 6px 12px; cursor: pointer; flex: none; }
+.panel .close:hover { border-color: var(--accent); color: var(--accent); }
+.panel .close:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.panel p { color: var(--muted); }
+.panel .meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.panel .note { color: var(--accent); }
+.bigviz { position: relative; border: 1px solid var(--line); background: var(--thumb); }
+.bigviz svg { width: 100%; height: auto; display: block; }
+.bigviz .axis text, .bigviz .lbl { font-family: var(--mono); font-size: 12px; fill: var(--muted); }
+.bigviz .axis path, .bigviz .axis line { stroke: var(--line); }
+.bigviz .p1 { fill: var(--p1); } .bigviz .p2 { fill: var(--p2); } .bigviz .p3 { fill: var(--p3); } .bigviz .p4 { fill: var(--p4); }
+.bigviz [data-tip] { cursor: crosshair; }
+.bigviz .hl { stroke: var(--fg) !important; stroke-width: 2 !important; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.legend i { display: inline-block; width: 10px; height: 10px; margin-right: 6px; vertical-align: -1px; }
+.tip { position: absolute; pointer-events: none; background: var(--fg); color: var(--bg); font: 12px/1.45 var(--mono); padding: 6px 9px; white-space: nowrap; transform: translate(-50%, calc(-100% - 10px)); z-index: 2; }
+body.locked { overflow: hidden; }
+
 
 ul.links { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
 .contact { font-family: var(--mono); font-size: 15px; }
@@ -87,42 +114,48 @@ footer { font-family: var(--mono); font-size: 12px; color: var(--muted); border-
   <section>
     <h2>Some things I made</h2>
     <div class="grid">
-      <div class="card">
+      <a class="card" href="#electoral" data-id="electoral">
         <div class="viz" data-draw="electoral" aria-label="Map thumbnail of electoral sections shaded by winning party"></div>
         <h3>Coahuila electoral map <span class="tag">MAP</span></h3>
         <p>Local congress and governor results by electoral section, 2017–2026, with a battleground score and a swing view comparing party vote share across elections.</p>
         <span class="src">INE · IEC · CONAPO</span>
-      </div>
-      <div class="card">
+        <span class="open">Open chart →</span>
+      </a>
+      <a class="card" href="#ageb" data-id="ageb">
         <div class="viz" data-draw="ageb" aria-label="Map thumbnail of census blocks shaded by social lag with business points"></div>
         <h3>La Laguna, block by block <span class="tag">TOOL</span></h3>
         <p>A geomarketing explorer for 332 urban census areas (AGEBs) in Torreón and its metro area, joining population, social lag and 127,000 registered businesses.</p>
         <span class="src">INEGI Censo 2020 · CONEVAL · DENUE</span>
-      </div>
-      <div class="card">
+        <span class="open">Open chart →</span>
+      </a>
+      <a class="card" href="#heat" data-id="heat">
         <div class="viz" data-draw="heat" aria-label="Heatmap thumbnail of public works spending"></div>
         <h3>Where Torreón builds <span class="tag">MAP</span></h3>
         <p>A heatmap of eleven months of municipal public works: 102 projects worth about $684 million pesos, placed by neighborhood from transparency filings.</p>
         <span class="src">DGOP Torreón transparency data</span>
-      </div>
-      <div class="card">
+        <span class="open">Open chart →</span>
+      </a>
+      <a class="card" href="#arsenic" data-id="arsenic">
         <div class="viz" data-draw="arsenic" aria-label="Line chart thumbnail of arsenic concentration over time against a limit line"></div>
         <h3>Arsenic in the wells <span class="tag">REPORT</span></h3>
         <p>Three decades of arsenic readings from Torreón's municipal wells, 1990–2023, crossed with CONEVAL's social lag index to show who drinks the worst water.</p>
         <span class="src">SIMAS well monitoring · CONEVAL</span>
-      </div>
-      <div class="card">
+        <span class="open">Open chart →</span>
+      </a>
+      <a class="card" href="#security" data-id="security">
         <div class="viz" data-draw="security" aria-label="Bar chart thumbnail of monthly crime counts"></div>
         <h3>Mexico security outlook, 2026 <span class="tag">REPORT</span></h3>
         <p>A mid-year review of rule of law and public security in Mexico, built on five years of state crime incidence data and reporting on organized crime.</p>
         <span class="src">SESNSP 2022–2026</span>
-      </div>
-      <div class="card">
+        <span class="open">Open chart →</span>
+      </a>
+      <a class="card" href="#flows" data-id="flows">
         <div class="viz" data-draw="flows" aria-label="Thumbnail of curved migration flow lines between points"></div>
         <h3>MigData <span class="tag">IN PROGRESS</span></h3>
         <p>A curated, open collection of migration statistics published by governments in the Global South, cleaned and made comparable.</p>
         <span class="src">Launching 2027</span>
-      </div>
+        <span class="open">Open chart →</span>
+      </a>
     </div>
   </section>
 
@@ -141,6 +174,19 @@ footer { font-family: var(--mono); font-size: 12px; color: var(--muted); border-
 
   <footer>© 2026 Francisco Javier López Macías</footer>
 </main>
+
+<div class="overlay" id="overlay" hidden>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="ov-title">
+    <header>
+      <h3 id="ov-title"></h3>
+      <button class="close" id="ov-close" type="button">Close ✕</button>
+    </header>
+    <p id="ov-desc"></p>
+    <div class="legend" id="ov-legend"></div>
+    <div class="bigviz" id="ov-viz"></div>
+    <div class="meta"><span id="ov-src"></span><span class="note">Sample data for illustration. Hover the chart for details.</span></div>
+  </div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script>
@@ -192,7 +238,7 @@ footer { font-family: var(--mono); font-size: 12px; color: var(--muted); border-
     },
     // Yearly arsenic level against a regulatory limit.
     arsenic(svg, w, h, r) {
-      const m = { t: 14, r: 14, b: 22, l: 30 };
+      const m = { t: 14, r: 14, b: 22, l: w > 400 ? 46 : 30 };
       let v = 0.022;
       const data = d3.range(1990, 2024).map(y => { v = Math.max(0.008, Math.min(0.05, v + (r() - 0.47) * 0.006)); return { y, v }; });
       const x = d3.scaleLinear().domain([1990, 2023]).range([m.l, w - m.r]);
@@ -239,11 +285,110 @@ footer { font-family: var(--mono); font-size: 12px; color: var(--muted); border-
   };
 
   const W = 320, H = 200;
+  const seeds = {};
   document.querySelectorAll('.viz[data-draw]').forEach((el, i) => {
+    seeds[el.dataset.draw] = 0.11 + i * 0.07;
     const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
       .attr('aria-label', el.getAttribute('aria-label') || '').attr('preserveAspectRatio', 'xMidYMid slice');
-    charts[el.dataset.draw](svg, W, H, rand(0.11 + i * 0.07));
+    charts[el.dataset.draw](svg, W, H, rand(seeds[el.dataset.draw]));
   });
+
+  // Hover details added to the large version of each chart.
+  const fmtPct = d3.format('.0%');
+  const partyName = { p1: 'Party A', p2: 'Party B', p3: 'Party C', p4: 'Party D' };
+  const tips = {
+    electoral(svg, r) {
+      svg.selectAll('path').attr('data-tip', function (d, i) {
+        const c = this.getAttribute('class');
+        return `Section ${String(1100 + i * 7)} · ${partyName[c]} · ${fmtPct(0.34 + r() * 0.22)} of vote`;
+      });
+      return Object.entries(partyName).map(([k, v]) => [`var(--${k})`, v]);
+    },
+    ageb(svg, r) {
+      svg.select('g').selectAll('path').attr('data-tip', function (d, i) {
+        const o = +this.getAttribute('fill-opacity');
+        const lvl = o > 0.6 ? 'Alto' : o > 0.35 ? 'Medio' : o > 0.18 ? 'Bajo' : 'Muy bajo';
+        return `AGEB 0535-${String(100 + i).padStart(3, '0')}A · rezago ${lvl} · ${d3.format(',')(Math.round(800 + r() * 3200))} residents`;
+      });
+      return [['var(--accent)', 'Darker = higher social lag (rezago)'], ['var(--fg)', 'Registered business (DENUE)']];
+    },
+    heat(svg, r) {
+      svg.selectAll('circle').attr('r', 2.2).attr('data-tip', (d, i) => `Project ${i + 1} · $${d3.format(',.1f')(0.8 + r() * 14)}M MXN`);
+      return [['var(--hot)', 'Concentration of public works spending'], ['var(--fg)', 'Individual project']];
+    },
+    arsenic(svg, r, w, h) {
+      const m = { l: 46, r: 14 };
+      const x = d3.scaleLinear().domain([1990, 2023]).range([m.l, w - m.r]);
+      const line = svg.selectAll('path').filter(function () { return this.getAttribute('fill') === 'none' && this.getAttribute('stroke') === 'var(--accent)'; }).node();
+      const step = (w - m.l - m.r) / 33;
+      svg.append('g').selectAll('rect').data(d3.range(1990, 2024)).join('rect')
+        .attr('x', d => x(d) - step / 2).attr('width', step).attr('y', 0).attr('height', h).attr('fill', 'transparent')
+        .attr('data-tip', d => {
+          const len = line.getTotalLength(); let lo = 0, hi = len, p;
+          for (let k = 0; k < 24; k++) { const mid = (lo + hi) / 2; p = line.getPointAtLength(mid); if (p.x < x(d)) lo = mid; else hi = mid; }
+          const v = d3.scaleLinear().domain([h - 22, 14]).range([0, 0.05])(p.y);
+          return `${d} · ${v.toFixed(3)} mg/L ${v > 0.025 ? '· above limit' : ''}`;
+        });
+      return [['var(--accent)', 'Average arsenic, municipal wells'], ['var(--muted)', 'NOM-127 limit (0.025 mg/L)']];
+    },
+    security(svg) {
+      const mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      svg.selectAll('rect').attr('data-tip', d => `${mon[d.i % 12]} ${d.yr} · ${d3.format(',')(Math.round(d.v * 3000))} incidents`);
+      return [['var(--accent)', '2026'], ['var(--muted)', '2022–2025']];
+    },
+    flows(svg, r) {
+      const names = ['Guatemala', 'Honduras', 'El Salvador', 'Venezuela', 'Haiti', 'Cuba', 'Ecuador', 'Colombia', 'Nicaragua'];
+      svg.selectAll('path').attr('data-tip', (d, i) => `${names[i]} → Mexico · ${d3.format(',')(Math.round(d.k * 9000))} people`);
+      svg.selectAll('circle').filter(d => d).attr('data-tip', (d, i) => `${names[i]} · ${d3.format(',')(Math.round(d.k * 9000))} people`);
+      return [['var(--accent)', 'Line width = size of flow']];
+    }
+  };
+
+  const ov = document.getElementById('overlay'), viz = document.getElementById('ov-viz');
+  let lastFocus = null;
+  function open(id) {
+    const card = document.querySelector(`.card[data-id="${id}"]`);
+    if (!card || !charts[id]) return close(true);
+    lastFocus = card;
+    document.getElementById('ov-title').textContent = card.querySelector('h3').firstChild.textContent.trim();
+    document.getElementById('ov-desc').textContent = card.querySelector('p').textContent;
+    document.getElementById('ov-src').textContent = 'Sources: ' + card.querySelector('.src').textContent;
+    viz.innerHTML = '';
+    const BW = 760, BH = 440;
+    const svg = d3.select(viz).append('svg').attr('viewBox', `0 0 ${BW} ${BH}`).attr('role', 'img')
+      .attr('aria-label', card.querySelector('.viz').getAttribute('aria-label'));
+    charts[id](svg, BW, BH, rand(seeds[id]));
+    const legend = tips[id](svg, rand(seeds[id] + 0.5), BW, BH) || [];
+    document.getElementById('ov-legend').innerHTML = legend.map(([c, t]) => `<span><i style="background:${c}"></i>${t}</span>`).join('');
+    const tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; viz.appendChild(tip);
+    let cur = null;
+    viz.addEventListener('pointermove', e => {
+      const t = e.target.closest('[data-tip]');
+      if (cur && cur !== t) cur.classList.remove('hl');
+      if (!t) { tip.hidden = true; cur = null; return; }
+      if (t.tagName !== 'rect' || t.getAttribute('fill') !== 'transparent') t.classList.add('hl');
+      cur = t;
+      const b = viz.getBoundingClientRect();
+      tip.textContent = t.getAttribute('data-tip');
+      tip.hidden = false;
+      const x = Math.min(Math.max(e.clientX - b.left, 90), b.width - 90);
+      tip.style.left = x + 'px'; tip.style.top = (e.clientY - b.top) + 'px';
+    });
+    viz.addEventListener('pointerleave', () => { tip.hidden = true; if (cur) cur.classList.remove('hl'); cur = null; });
+    ov.hidden = false; document.body.classList.add('locked');
+    document.getElementById('ov-close').focus();
+  }
+  function close(fromHash) {
+    ov.hidden = true; document.body.classList.remove('locked'); viz.innerHTML = '';
+    if (!fromHash && location.hash) location.hash = '';
+    if (lastFocus) lastFocus.focus();
+  }
+  function route() { const id = location.hash.slice(1); if (id && charts[id]) open(id); else if (!ov.hidden) close(true); }
+  document.getElementById('ov-close').addEventListener('click', () => close());
+  ov.addEventListener('click', e => { if (e.target === ov) close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !ov.hidden) close(); });
+  window.addEventListener('hashchange', route);
+  route();
 })();
 </script>
 
